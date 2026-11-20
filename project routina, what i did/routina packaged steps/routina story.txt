@@ -1,0 +1,20 @@
+routina story
+
+1  me and 4 team members made a program called routina that was a daily habit tracker  with python
+2 then we used ai tools to be more efficient in understanding
+3 A made the first not so working iteration
+4 i manually made the second one, with at least some working code
+5 A made the second version by inputting my code into an ai model
+6 that code is then safety checked by i for malicous strings
+7 i then mess around with ai to get code working
+8 j then makes working ui with prompt after hours of debugging and adding an input of myy ai goof code
+9 using tkinter , he inputs the working habit tracker.exe code
+ 10 this code is the input code
+ 11 iteration 1 was made manually
+ 12 iteration 2 was made by sonnet
+ 13 a lot of code was generated using iteration 2 inputted with sonnet ai
+14 it stopped halfway due to lack of tokens
+15 then i put it in chatgpt for completion 
+16 errors found : it does not open
+17 i tested and manually debugged it fully and now i got a secret game in too, hope my teammates do not see it
+18 the 3rd iteration has a bunch of new features and tries to hide the game more, the code is 

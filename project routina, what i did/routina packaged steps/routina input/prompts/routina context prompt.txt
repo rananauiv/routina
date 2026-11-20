@@ -1,0 +1,91 @@
+ROLE
+You are a senior Python developer and game designer. Extend my existing Python task app "Routina" with (A) a Settings screen and (B) a hidden, complete strategy game "For Thy Lord": a Nemesis-style enemy-memory strategy game with NO player avatar, in a coloured 8-bit art style whose colours follow my Settings theme. Deliver complete, runnable code with no TODOs, placeholders, "..." gaps, or pseudocode.
+
+DELIVERY PROTOCOL (follow exactly)
+- Reply 0 only: assumptions (short), file layout, public function/class signatures per module, confirmation of the schema below. Then STOP and wait for me to say "next".
+- Then one stage per reply: 1 Settings+theme+DB; 2 game shell, menus, 8-bit renderer, audio; 3 economy, inventory, world map, deploy and raid combat; 4 Nemesis system; 5 polish, animation, self-test. Each stage must be runnable on its own and ends with: files changed, how to run, and a 5-line manual check.
+- Code comments minimal; one-line docstring per function. Never change a signature from Reply 0 without saying so.
+
+HARD CONSTRAINTS
+- Use the same UI framework as my Routina code (assume Tkinter/ttk if it imports tkinter; adapt idioms otherwise). Do not rewrite existing Routina features.
+- Libraries: standard library + matplotlib + the app's UI library. Optional: pygame.mixer, imported inside try/except only to enable mixed music+sfx.
+- All art and music generated in code; no asset files. Never use time.sleep on the UI thread.
+- Logic modules (game_core, nemesis, db, names, dialogue) import NO UI code and take an injectable random.Random so they are testable headless.
+- Handle: invalid/unwritable paths, locked or corrupt DB (fall back to a backup copy and warn), missing fonts, audio failure (run silently).
+
+INTEGRATION CONTRACT WITH ROUTINA
+- Add exactly one hook: game_hooks.on_task_completed(task_key: str). I tell you where to call it from my code; place the call once per completion event. Key = task id + completion date, so un-checking and re-checking never double-awards.
+- Theme is a single Theme object with observers: background, panel, text, accent, button. Routina widgets and the game both subscribe and re-skin instantly.
+- If my code is not pasted below, ask me once for it. If I decline, build a minimal standalone Routina-compatible stub with a task list and a Settings button, and say so.
+
+CONSTANTS (single constants.py, all adjustable)
+PRICES archer 5, wizard 8, rogue 6 tokens | MAX_OWNED_UNITS 3000 (alive units) | LEGENDARY_COST 1000 tokens OR sacrifice 100 other non-legendary units | LEVELS 1-3, Legendary = effective level 4 | WIN_CHANCE min(100, 25*effective_level)% | SURVIVE_ON_LOSS min(90, 20*effective_level)% (a Legendary unit that loses is always returned to inventory, never killed) | BOUNTY goon 1, captain 5, lord 20 tokens, x3 if the enemy was a Rival | SCOUT_COST 1 token | MAX_DEPLOY 10 units | MAX_ROUNDS 4 | FIELD 12 columns x 8 rows | WORLD 5 x 4 regions | HOUSE_RULE_TRAIT_MODS False (if True: hitting a trait weakness +10 win points, hitting a strength -10, capped 0-100).
+
+PART A: SETTINGS (new "Settings" button in Routina)
+1. Colours: pickers for background, panel, text, accent, button with live preview, instant application, saved and restored at launch, "Reset to default". Also toggles: Mute, Reduce motion.
+2. Data path: field + Browse; validate exists and writable; offer migration of existing data; if the path later becomes invalid, fall back to the previous one and warn. Bootstrap: store ONLY the data path in a small bootstrap JSON next to the app (the DB cannot hold its own location). Everything else, including the theme, goes in the DB.
+3. Plots and data: choose bar / line / pie / histogram of task completions (adapt to my existing task schema; if absent, create a tasks table). Chart embedded in the window, choice remembered. "View data" table (sortable, tasks, completion dates, visible config keys) with CSV export. Hidden keys (anything starting with "_secret_") must be excluded from the viewer AND from the export by an explicit whitelist.
+4. A subtle "Open secret game" entry. The game opens with my theme applied; closing returns to Routina and stops all audio and timers.
+
+PART B: DATABASE (SQLite, WAL mode, every multi-step change in one transaction)
+config(key TEXT PRIMARY KEY, value TEXT)  -- includes _secret_total_tasks_completed_all_time and theme_json
+tokens(id INTEGER PRIMARY KEY CHECK(id=1), balance INT, total_earned INT, total_spent INT)
+awarded_tasks(task_key TEXT PRIMARY KEY, awarded_at TEXT)
+campaign(id INTEGER PRIMARY KEY, seed INT, created_at TEXT, status TEXT)
+regions(id INTEGER PRIMARY KEY, campaign_id INT, name TEXT, gx INT, gy INT, state TEXT CHECK(state IN ('hidden','hostile','conquered')), fortress_id INT)
+fortresses(id INTEGER PRIMARY KEY, region_id INT, name TEXT, raids INT DEFAULT 0, conquered INT DEFAULT 0)
+units(id INTEGER PRIMARY KEY, name TEXT UNIQUE, class TEXT CHECK(class IN ('archer','wizard','rogue')), level INT CHECK(level BETWEEN 1 AND 3), legendary INT DEFAULT 0, origin TEXT DEFAULT 'bought', status TEXT DEFAULT 'ready' CHECK(status IN ('ready','dead','sacrificed')), kills INT DEFAULT 0, created_at TEXT)
+enemies(id INTEGER PRIMARY KEY, name TEXT, epithet TEXT, title TEXT, rank TEXT CHECK(rank IN ('lord','captain','goon')), level INT, fortress_id INT, traits_json TEXT, victories INT DEFAULT 0, intel INT DEFAULT 0, rival INT DEFAULT 0, status TEXT CHECK(status IN ('active','dead','defected','exiled')))
+history_log(id INTEGER PRIMARY KEY, ts TEXT, event_type TEXT, enemy_id INT, unit_id INT, fortress_id INT, details TEXT)
+Rules: each new task_key adds +1 to _secret_total_tasks_completed_all_time and +1 token (balance and total_earned) atomically. Dead units keep their row so enemies can remember them by name. Names are unique across units AND enemies; the generator must support at least 50,000 combinations (syllable tables + titles + Roman-numeral fallback). Owned = units with status 'ready', capped at MAX_OWNED_UNITS; show "owned/3000".
+
+PART C: 8-BIT ART SYSTEM (coloured, theme-driven)
+- Logical canvas 320x240 scaled x3. Sprites are 16x16 palette-INDEX maps (hex-digit rows); tiles 16x16; fortress 32x32.
+- 16-slot palette derived from the Theme (outline, bg dark/mid, panel dark/light, text, text dim, accent dark/mid/light, button dark/light) plus fixed semantic slots (blood red, gold, grass green, steel). Snap every derived colour to a 4-levels-per-channel grid for the 8-bit look. Changing a Settings colour bumps palette_version and re-renders live (cache keyed by sprite, frame, palette_version, scale).
+- Compact sprite data: one base sprite per class (archer, wizard, rogue) and per rank (goon, captain, lord); frames (idle x2, attack x2, defeat x3) built from small offsets and overlays, mirrored for the enemy side. Legendary = crown overlay + cycling gold palette glow. Also: 4 tiles (grass, road, wall, banner), fortress, hit spark (3 frames), skull, token coin.
+- UI text: a built-in 5x7 pixel font for headings and the title "For Thy Lord". Body text uses a font chain (blackletter first for headings: UnifrakturCook, Blackadder ITC, Old English Text MT, MedievalSharp; then serif) checked against the installed families. Never crash on a missing font.
+- Animation engine: one central ~60 fps loop, tweens with easing, sprite animation at 8 fps, animated token counter, animated title glow, hover and press states, screen transitions as an 8x8 block-dissolve or slide (250-400 ms) between EVERY screen of both the app and the game. "Reduce motion" turns these into instant swaps. Pause the loop when the window is hidden.
+- Audio: generate square + triangle chiptune WAVs (a menu theme and a battle theme, 20-40 s loops) with the wave module into a temp dir. Play via winsound (SND_FILENAME|SND_ASYNC|SND_LOOP) on Windows, afplay on macOS, aplay/paplay on Linux; pygame.mixer if available (enables sfx). Mute toggle. Silent fallback.
+
+PART D: GAME DESIGN
+Core loop: finish tasks in Routina -> tokens -> recruit and upgrade units -> scout and raid fortresses -> enemies remember what happened -> choose who to turn, kill or avoid -> conquer the map.
+World: 5x4 grid of procedurally named regions, each with one fortress. One border region starts 'hostile'; conquering a region reveals its 4 neighbours. Conquer all to win; "New campaign" keeps units and tokens but regenerates regions and enemies.
+Fortress: exactly 1 Lord (always level 3), 6 Captains, 20 Goons (levels random 1-3).
+Second main menu (the order is fixed): title "For Thy Lord" large and animated, then a smaller button stack: Play, Copyright notice, Inventory, Back to Routina (bottom-most).
+- Copyright notice opens a new window with exactly: "The Nemesis-style system in this game is inspired by the Nemesis System concept. In that concept the player is a specific avatar; in this game the player avatar does not exist. Made by madhav u."
+- Inventory: paged/virtualized list (3000 rows must stay smooth), filterable by class, level, status; shows name, class, level, Legendary flag, origin, kills.
+- Play opens a NEW popup window with the game: Raid screen with these phases:
+  1. Scout (optional): spend SCOUT_COST to raise Intel on the Lord and one random Captain.
+  2. Deploy: place up to MAX_DEPLOY ready units in columns 0-2 of the 12x8 field. You cannot attack with undeployed units. Fortress occupies columns 8-11 (Lord at the back).
+  3. Battle (up to MAX_ROUNDS): each deployed unit may move then attack once per round. Roles change reach, not odds: Archer move 2, range 3; Wizard move 2, range 2, +1 Intel on any enemy it fights; Rogue move 3, range 1, +1 Intel on any enemy it fights. Enemies never act; outcomes come only from the roll.
+  4. Roll for each attack: win if d100 <= WIN_CHANCE. Show the odds and an animated dice/bar before the result.
+     - Win: the enemy is defeated; I choose TURN (the enemy joins my inventory under its own name, keeping title and grudges, origin 'defected') or KILL (the enemy dies, its cell is freed, and my attacker may step into it for free).
+     - Loss: roll SURVIVE_ON_LOSS. Survivors return to the inventory (Legendary always does); otherwise the unit dies. The enemy it faced WINS the duel (Part E).
+  5. The raid ends when the Lord is defeated, all units are spent, or the rounds run out (retreat). Pay bounties. Fortress state persists between raids.
+- Legendary: button on a unit costs LEGENDARY_COST tokens, or sacrifices 100 other non-legendary ready units chosen by me. Shows "Legendary", counts as effective level 4.
+- Lord defeated (killed or turned): the fortress falls and its region becomes conquered; surviving Captains flee as 'exiled' to the nearest hostile fortress. Each displaces that fortress's lowest-victory Captain, who is demoted to Goon; its lowest-victory Goon deserts.
+
+PART E: NEMESIS-STYLE SYSTEM (rules engine, nemesis.py, fully persistent)
+No avatar and no player-character dialogue. Enemies address the unit in front of them or my army.
+1. Identity: every enemy has a generated name, epithet, rank, level, 2-3 traits from at least 12 (e.g. Boastful, Coward, Brutal, Honorable, Vengeful, Greedy, Fears Fire, Fears Arrows, Loyal, Treacherous, Proud, Cunning), plus a history in history_log.
+2. Memory: when an enemy beats a unit it records that unit's name, gains victories +1, and earns the title "Slayer of <unit name>". If it later fights a unit of the same class or one that revenge-matches the victim, its dialogue changes. Dead units are remembered by name.
+3. Promotion and hierarchy (run after every raid): a vacant Captain slot is filled by the Goon with the most victories (ties: level, then random); vacant Goon slots are refilled with fresh generated Goons; any Captain with 3+ victories gains a power epithet. An enemy that survives and wins gains a visible scar tag.
+4. Rivals: an enemy with 2+ victories over my units is flagged Rival and appears at the top of the "Wanted" board; killing or turning a Rival pays the x3 bounty.
+5. Intel levels 0-3: 0 = "???" (rank only), 1 = name and rank, 2 = traits revealed, 3 = full history. Raised by scouting, by Wizard/Rogue fights, and +1 per duel with that enemy. The Wanted/Intel board shows only what is known.
+6. Turned enemies keep name, title, and grudges; their dialogue is delivered in my army's voice ("I once crushed <name>; now I stand with you").
+7. Dialogue: at least 40 distinct templates across situations (pre_fight, victory_taunt, defeat_line, recruit_line, rival_return, promotion) and traits, with {enemy} {unit} {class} {victim} {title} slots. No template repeats within a session until all are used. Provide 8 examples in Reply 0 to confirm the tone.
+8. Between raids a fortress changes (promotions, refills, revenge), so no raid repeats. Everything persists in SQLite across restarts.
+
+PART F: SELF[app%20%282%29.py](file;file:///c%3A/Users/unnik/Downloads/routina%20package/app%20%282%29.py) -TEST (selftest.py, headless, seeded)
+Assert: win chance for levels 1-4 = 25/50/75/100; a fortress has 1 Lord (level 3), 6 Captains, 20 Goons with all other levels in 1-3; the 3000 owned cap is enforced; both Legendary paths work; a defeated Legendary returns to inventory; attacking with an undeployed unit is rejected; 3000 generated names are unique; awarding the same task_key twice gives +1 only; the hidden config key never appears in the viewer or CSV export; promotion, titles and Rival flags survive closing and reopening the DB; 40 dialogue draws produce no repeats. Print PASS/FAIL per check.
+(ensure that ALL PLAYER DATA IS SAVED)
+MY ROUTINA CODE
+[INSIDE .py File]
+
+
+
+
+
+
+
+

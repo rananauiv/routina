@@ -1,0 +1,974 @@
+routina work done 
+
+it works
+
+
+
+
+
+
+
+1:36 AM
+
+
+
+
+
+
+
+
+
+1.wait, now add go to game button only appears after making a task named for thy lord
+
+2. add a readme deep within the folders that are visible to user revealing how to open the hidden game and the konami cheatcode
+3. make a system where you can use tokens to bribe enemies to go away directly.
+4. make a  pit fight mode where player takes control of one unit and fights an enemy, in a friendly battle, earning tokens, but not killing enemy (shames enemy reducing level)
+
+
+
+
+
+
+
+1:41 AM
+
+
+
+
+
+
+Worked for 55m 2s
+
+do not modify previous file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+called version 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+top down view and each class plays differently add enemy ai 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+in pit fight
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bribing frees up spot to place unit from inventory, if spot is empty, you can place enemies anyway, it isnt compulsory that enemies are always there, 1/20 times after first spot is full, enemies will have a chance to die after spawning
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+killing enemies should also make em vacant 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+window? its real time
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+wwait understood
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+wasd and skeybind settings for pitfight
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+no buttons, real time combat uses keys
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+run when all done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+once you fully conquer a region, you get 5 tokens added to your rate by default
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dT/dt=n+v
+v= no. of victories
+
+dt=3t'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+v= no of victories times 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+sry
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+make sure player presses the keys up up down down ..... for cheat code not type
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+one final redistributable zip pls
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+deployable
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+run when ready
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+game isnt opening and also button is hidden when it is there ,you made errors
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+button should be hidden unless ONE SPECIFIC NAME called for thy king all small, also the dont tell the user about arrow keys
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+game cannot be played
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+at least let players view the world, without units
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+the readme isnt part of the puzzle, it is just a file hidden in the game folder
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+for thy lord, mb, otherwise the button simply isnt visible or working
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+scouting still works
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+scouting cost still works
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+still costs unit
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+run app once done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fix it and make sure all features work
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+play the pit fight
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+run once done testing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+enemy level wont go below 1, u put that?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Yes. I set the pit fight level floor to 1: a win reduces the enemy’s level by one until then. Winning against a level 1 enemy still marks them as shamed. It’s in [fortcore.py (line 1257)](/C:/Users/unnik/Documents/Codex/2026-11-19/ori/work/routina_v3_source/routina_plus ver 2/_internal/RoutinaPlus_final/fortcore.py:1257).
+
+I launched the v3 app, but Computer Use was stopped by Escape before I could play the fight, so I couldn’t verify it live. The ZIP is [routina_plus ver 3.zip](/C:/Users/unnik/Documents/Codex/2026-11-19/ori/outputs/routina_plus ver 3.zip).
+
+        
+2:36 AM
+
+
+
+
+
+
+
+why is there a new bitch ass go to game button?
+
+
+
+
+
+
+
+2:36 AM
+
+
+
+
+
+
+it is a SECRET GAME
+
+
+
+
+
+
+
+2:36 AM
+
+
+
+
+
+
+Worked for 16m 22s
+
+once player completes 100 tasks they get a riddle letting them open the game, once they defeat 3 lords they unlock the cheat code
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tasks when i say means HABITS OR TASKS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+complete fast
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+perfectly
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tasks or habits total, unlike token maker it doesnt reset weekly
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+latest prompt is the winner if there are two conflicting ones, ignore this for now, keep in mind for later
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ok, when will you finish?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+why did it trigger?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+It triggered because I seeded the disposable QA profile with exactly 100 completions—50 tasks and 50 habits—to check the unlock. The riddle appears automatically at that milestone. Your regular app data wasn’t changed.
+
+The version 3 ZIP is rebuilt at [routina_plus ver 3.zip](/C:/Users/unnik/Documents/Codex/2026-11-19/ori/outputs/routina_plus ver 3.zip). The source compiles, all core checks pass, and the launch screenshot showed no visible game button. I couldn’t finish checking the riddle dialog because Computer Use was stopped by Escape.
+
+        
+2:52 AM
+
+
+
+
+
+
+
+ok
+
+
+
+
+
+
+
+2:53 AM
+
+
+
+
+
+
+Got it. The updated ZIP is ready at the path above.
+
+        
+2:53 AM
+
+
+
+
+
+
+
+continue and finish
+
+
+
+
+
+
+
+2:53 AM
+
+
+
+
+
+
+Worked for 31s
+
+Computer Use was stopped by Escape again, so I have to stop the live app check here. The rebuilt ZIP and passing automated checks are ready; the interactive riddle and pit fight still need a live run.
+
+        
+2:53 AM
+
+
+
+
+
+
+
+for thy lord broke fix it
+
+
+
+
+
+
+
+2:54 AM
+
+
+
+
+
+
+Activity
+
+
+the for thy lord task name
+
+
+
+
+
+
+
+2:54 AM
+
+
+
+
+
+
+it is an override for someone wanting to access game early'
+
+
+
+
+
+
+
+2:55 AM
+
+
+
+
+
+
+there isnt a button either
+
+
+
+
+
+
+
+2:55 AM
+
+
+
+
+
+
+i cant create 100 tasks easily, cheat code and that task name is an OVERRIDE/ developer tool
+
+
+
+
+
+
+
+2:56 AM
+
+
+
+
+
+
+Got it: for thy lord is the early-access developer override, so the button should appear only while that task exists. I’ll restore that conditional button on Home and Tasks; otherwise the game stays hidden until the 100-completion riddle.
+
+
+
+
+Edited files, ran a command
+
+
+
+startup riddle? no riddle
+
+
+
+
+
+
+
+2:58 AM
+
+
+
+
+
+
+Right—no riddle on startup. I’ll show it when the combined completion count reaches 100; the exact for thy lord task still reveals the early-access button.
+
+
+
+
+Edited routina_plus.py+0-4
+
+
+
+
+
+only after 100 task done will riddle appear, that hints at task name being entered
+
+
+
+
+
+
+
+2:58 AM
+
+
+
+
+
+
+for thy lord
+
+
+
+
+
+
+
+2:58 AM
+
+
+
+
+
+
+bro u idiot
+
+
+
+
+
+
+
+2:58 AM
+
+
+
+
+
+
+work faster
+
+
+
+
+
+
+
+2:58 AM
+
+
+
+
+
+
+Understood: the riddle should appear only when the 100th combined task or habit completion is recorded, and it should hint that the player must enter for thy lord as a task name. That name reveals the early-access button; I’ll fix the riddle flow accordingly.
+
+
+
+
+Edited a file, ran a command
+
+
+
+
+
+
+
+
+
+
+Worked for 1m 57s
+
+Fixed the for thy lord access path:
+- The riddle appears only when the 100th combined task or habit completion is recorded. It hints that for thy lord should be entered as a task name; it won’t pop up at startup.
+- Adding the exact lowercase task reveals Go to game on Home and Tasks, and works as the early-access override.
+- The cheat section remains gated behind defeating three Lords.
+Compile, self-tests, and the exact-name check passed. The rebuilt ZIP passed its integrity check and contains no test database:
+
+[routina_plus ver 3.zip](/C:/Users/unnik/Documents/Codex/2026-11-19/ori/outputs/routina_plus ver 3.zip)
+
+        
+11:47 AM
