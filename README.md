@@ -5,4 +5,7 @@ after i packaged the app, the source code was deleted, and so it broke the sourc
 
 24-11-2026
 
-the latest version is not released in github's releases, it is relaesed as the source itself , with bat file
+the latest version is not released in github's releases, it is relaesed as the source itself 
+
+GO TO RELEASES TO FIND FINAL VER
+THIS REPOSITORY IS TO SHOW STEPS AND WORK SO I GET COMFY WITH USING AI, since i hated using it
